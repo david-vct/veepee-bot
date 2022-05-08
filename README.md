@@ -5,3 +5,7 @@ Application that automates some tasks on Veepee.
 ```shell
 python -m veepeebot
 ```
+
+## Authors
+David Vicente
+Emeric Molere
