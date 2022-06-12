@@ -1,39 +1,30 @@
-from veepeebot.bots.SlowBot import SlowBot
+from veepeebot.bots.VeepeeBot import VeepeeBot
 from time import sleep
 
 class VeepeeBotController:
     def __init__(self, user, password):
+        # Variables initialisation
         self.user = user
         self.password = password
-        self.bot = SlowBot(1, 1.5, False)
 
-    def connectToAccount(self):
-        exit()
-        self.driver.find_element('id', 'txtMail').send_keys(self.user)
-        self.driver.find_element('id', 'txtPassword').send_keys(self.password)
-        self.driver.find_element('id', 'stayConnected').click()
-        self.driver.find_element('id', 'loginBt').click()
+        # Bot initialisation
+        self.bot = VeepeeBot(False)
 
-    def addToBasket(self, category, product):
-        self.bot.go('https://www.veepee.fr/gr/product/' + category + '/' + product)
-        #self.bot.click('/html/body/div[1]/div/div[2]/div/div/section/div[2]/div/div[2]/div/div[4]/div/div[2]/div[2]/button')
 
     def makeMoney(self):
-        try:
-            # Connexion
-            self.bot.go('http://www.veepee.fr')
-            self.bot.write('//*[@id="txtMail"]', self.user)
-            self.bot.write('//input[@id="txtPassword"]', self.password)
-            self.bot.click('//*[@id="loginBt"]')
-            
-            sleep(2)
-            self.bot.go('https://www.veepee.fr/gr/home/fashion')
+        # Connexion
+        self.bot.go('http://www.veepee.fr')
+        self.bot.connectToAccount(self.user, self.password)
 
-            # Add elements to basket
-            #self.addToBasket('224918', '44084617')
 
-        except Exception as exception:
-            print('Exception:', exception)
+        json = self.bot.get('//*[@id="__NEXT_DATA__"]').get_attribute('innerHTML')
+        
+        #sleep(2)
+        #self.bot.go('https://www.veepee.fr/gr/home/fashion')
+
+        # Add elements to basket
+        #self.addToBasket('224918', '44084617')
+
         
         sleep(10)
         self.bot.shutdown()
